@@ -9,9 +9,10 @@ const BlogPage = ({ blogs }) => {
         Latest Blog Posts
       </h1>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* Blog Grid with Equal Height */}
+      <div className="grid md:grid-cols-2 gap-6">
         {blogs.map((blog, index) => (
-          <Link key={index} href={`/blogs/${blog._id}`}>
+          <Link key={index} href={`/blogs/${blog._id}`} className="flex">
             <BlogHolder key={index} {...blog} />
           </Link>
         ))}
