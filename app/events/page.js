@@ -1,24 +1,34 @@
 "use client";
 
-import { redirect } from "next/navigation";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import EventCard from "../components/ui/eventCard";
 import Link from "next/link";
 import FilterToast from "../components/ui/filterToast";
 import { useUser } from "../context/userContext";
+import Alert from "../components/ui/Alert";
 
 const Events = () => {
   const [events, setEvents] = useState([]);
   const [filteredEvents, setFilteredEvents] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [alert, setAlert] = useState({ message: "", type: "" });
   const eventsPerPage = 12;
   const { user } = useUser();
+  const router = useRouter();
 
-  if (!user) {
-    alert("You must be logged in to view this page");
-    redirect("/");
-  }
+  useEffect(() => {
+    if (!user) {
+      setAlert({
+        message: "You must be logged in to view this page",
+        type: "error",
+      });
+      setTimeout(() => {
+        router.push("/");
+      }, 3000); // Redirect after 3 seconds
+    }
+  }, [user, router]);
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -124,6 +134,14 @@ const Events = () => {
           )
         )}
       </div>
+
+      {alert.message && (
+        <Alert
+          message={alert.message}
+          type={alert.type}
+          onClose={() => setAlert({ message: "", type: "" })}
+        />
+      )}
     </div>
   );
 };

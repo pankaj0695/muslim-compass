@@ -1,8 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useState } from "react";
-import { redirect, useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/app/components/ui/button";
 import { Input } from "@/app/components/ui/input";
 import { Label } from "@/app/components/ui/label";
@@ -10,6 +10,7 @@ import { Textarea } from "@/app/components/ui/textArea";
 import { ImagePlus, Loader2 } from "lucide-react";
 import { addBlog } from "@/app/actions/blogsActions";
 import { useUser } from "@/app/context/userContext";
+import Alert from "@/app/components/ui/Alert";
 
 export default function NewBlogPost() {
   const [isLoading, setIsLoading] = useState(false);
@@ -21,13 +22,21 @@ export default function NewBlogPost() {
     content: "",
     imageFile: {},
   });
+  const [alert, setAlert] = useState({ message: "", type: "" });
   const router = useRouter();
   const { user } = useUser();
 
-  if (!user) {
-    alert("You must be logged in to view this page");
-    redirect("/");
-  }
+  useEffect(() => {
+    if (!user) {
+      setAlert({
+        message: "You must be logged in to post blogs",
+        type: "error",
+      });
+      setTimeout(() => {
+        router.push("/");
+      }, 3000); // Redirect after 3 seconds
+    }
+  }, [user, router]);
 
   const handleImageUpload = (e) => {
     const file = e.target.files?.[0];
@@ -119,14 +128,17 @@ export default function NewBlogPost() {
       setCoverImage(null);
 
       // Show a success message to the user
-      alert("Blog created successfully!");
+      setAlert({ message: "Blog created successfully!", type: "success" });
       router.push("/blogs");
     } catch (error) {
       // Log the error (for debugging)
       console.error("Error creating blog:", error);
 
       // Show an error message to the user
-      alert("Failed to create blog: " + error.message);
+      setAlert({
+        message: "Failed to create blog: " + error.message,
+        type: "error",
+      });
     }
     setIsLoading(false);
   };
@@ -271,6 +283,13 @@ export default function NewBlogPost() {
           </form>
         </motion.div>
       </div>
+      {alert.message && (
+        <Alert
+          message={alert.message}
+          type={alert.type}
+          onClose={() => setAlert({ message: "", type: "" })}
+        />
+      )}
     </motion.div>
   );
 }
