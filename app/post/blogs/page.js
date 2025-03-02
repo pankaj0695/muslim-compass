@@ -2,13 +2,14 @@
 
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { Button } from "@/app/components/ui/button";
 import { Input } from "@/app/components/ui/input";
 import { Label } from "@/app/components/ui/label";
 import { Textarea } from "@/app/components/ui/textArea";
 import { ImagePlus, Loader2 } from "lucide-react";
 import { addBlog } from "@/app/actions/blogsActions";
+import { useUser } from "@/app/context/userContext";
 
 export default function NewBlogPost() {
   const [isLoading, setIsLoading] = useState(false);
@@ -21,6 +22,12 @@ export default function NewBlogPost() {
     imageFile: {},
   });
   const router = useRouter();
+  const { user } = useUser();
+
+  if (!user) {
+    alert("You must be logged in to view this page");
+    redirect("/");
+  }
 
   const handleImageUpload = (e) => {
     const file = e.target.files?.[0];

@@ -32,15 +32,15 @@ export default function NavBar() {
   const navItemsRight = [
     {
       title: "Add Event",
-      location: "/post/add-event",
+      location: "/post/events",
     },
     {
       title: "Post Jobs",
-      location: "/post-jobs",
+      location: "/post/jobs",
     },
     {
       title: "Post Blogs",
-      location: "/post/post-blog",
+      location: "/post/blogs",
     },
     {
       title: "Contact",

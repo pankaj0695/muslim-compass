@@ -1,9 +1,11 @@
 "use client";
 
+import { redirect } from "next/navigation";
 import { useState, useEffect } from "react";
 import EventCard from "../components/ui/eventCard";
 import Link from "next/link";
 import FilterToast from "../components/ui/filterToast";
+import { useUser } from "../context/userContext";
 
 const Events = () => {
   const [events, setEvents] = useState([]);
@@ -11,6 +13,12 @@ const Events = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const eventsPerPage = 12;
+  const { user } = useUser();
+
+  if (!user) {
+    alert("You must be logged in to view this page");
+    redirect("/");
+  }
 
   useEffect(() => {
     const fetchEvents = async () => {
