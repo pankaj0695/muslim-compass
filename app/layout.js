@@ -1,7 +1,7 @@
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import NavBar from "./components/navBar";
 import { EventProvider } from "./context/eventContext";
+import { UserProvider } from "./context/userContext";
 
 export const metadata = {
   title: "Muslim Compass",
@@ -13,10 +13,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className="bg-background text-black">
-        <EventProvider>
-          <NavBar />
-          {children}
-        </EventProvider>
+        <UserProvider>
+          <EventProvider>
+            <NavBar />
+            {children}
+          </EventProvider>
+        </UserProvider>
       </body>
     </html>
   );

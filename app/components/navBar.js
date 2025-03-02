@@ -1,17 +1,14 @@
 "use client";
-import {
-  User2Icon,
-  MenuIcon,
-  MapPinIcon,
-  SearchIcon,
-  XIcon,
-} from "lucide-react";
+import { MenuIcon, MapPinIcon, SearchIcon, XIcon } from "lucide-react";
 import Link from "next/link"; // Assuming you're using Next.js for routing
 import { useState } from "react";
+import ProfileButton from "./profileButton";
+import { useUser } from "../context/userContext";
 
 export default function NavBar() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const { user, logout } = useUser();
 
   const navItemsLeft = [
     {
@@ -97,9 +94,7 @@ export default function NavBar() {
 
         {/* User and Menu Section */}
         <section className="flex-grow flex justify-end gap-2 items-center">
-          <button className="hover:bg-gray-300 p-2 rounded-full transition-colors">
-            <User2Icon />
-          </button>
+          <ProfileButton />
           <button
             className="hover:bg-gray-300 p-2 rounded-full transition-colors md:hidden"
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
@@ -175,6 +170,13 @@ export default function NavBar() {
                   <ItemHolder title={item.title} location={item.location} />
                 </li>
               ))}
+              {user && (
+                <form action={logout}>
+                  <button className="p-2 hover:bg-gray-100" type="submit">
+                    Logout
+                  </button>
+                </form>
+              )}
             </ul>
           </div>
         </div>
