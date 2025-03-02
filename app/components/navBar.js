@@ -69,10 +69,12 @@ export default function NavBar() {
           <Link href="/" className="flex flex-row gap-2 items-center">
             <img
               src="/muslim-compass-logo.png"
-              width="50px"
               alt="Muslim Compass Logo"
+              className="w-12 h-12 md:w-20 md:h-20 object-contain"
             />
-            <h2 className="text-xl md:text-2xl font-bold">Muslim Compass</h2>
+            <h2 className="hidden md:block md:text-3xl font-[Amiri]">
+              Muslim Compass
+            </h2>
           </Link>
         </section>
 
