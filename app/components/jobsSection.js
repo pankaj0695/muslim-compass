@@ -20,7 +20,7 @@ export default function JobsSection() {
 
   return (
     <div className="relative">
-      <h1 className="text-3xl font-semibold mb-8">Upcoming Events</h1>
+      <h1 className="text-3xl font-semibold mb-8">Upcoming Jobs</h1>
 
       {/* Scrollable Container */}
       <div
