@@ -33,7 +33,7 @@ export default function Home() {
         whileInView="visible"
         viewport={{ once: true }} // Ensures the animation only happens once
         variants={bannerVariants}
-        className="w-screen overflow-hidden py-5 md:py-10"
+        className="overflow-hidden py-5 md:py-10"
       >
         <Image
           src="/banner.png"

@@ -48,7 +48,7 @@ const Events = () => {
       <h1 className="text-3xl font-semibold mb-8">All Events</h1>
 
       {/* Filters */}
-      <div className="flex gap-2 mb-8">
+      <div className="flex gap-2 mb-8 overflow-x-scroll">
         <FilterToast
           text="All"
           onClick={() => handleFilter("")}
