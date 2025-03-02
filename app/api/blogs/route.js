@@ -9,7 +9,13 @@ export async function POST(request) {
 
     const body = await request.json();
 
-    if (!body.title || !body.subTitle || !body.content || !body.image) {
+    if (
+      !body.name ||
+      !body.title ||
+      !body.subTitle ||
+      !body.content ||
+      !body.image
+    ) {
       return NextResponse.json(
         { error: "Missing required fields" },
         { status: 400 }

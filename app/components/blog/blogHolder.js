@@ -1,14 +1,7 @@
 import React from "react";
 import { format, parseISO } from "date-fns";
 
-const BlogHolder = ({
-  title,
-  author = "Nora Sadek",
-  createdAt,
-  views = 101,
-  likes = 51,
-  image,
-}) => {
+const BlogHolder = ({ name, title, createdAt, image }) => {
   return (
     <div className="bg-white rounded-lg overflow-hidden border border-gray-200 flex flex-col md:flex-row h-full w-[90vw] max-w-lg">
       {/* Blog Image on Left */}
@@ -22,7 +15,7 @@ const BlogHolder = ({
       <div className="p-6 flex flex-col flex-grow">
         {/* Author Info */}
         <div className="flex items-center space-x-2 mb-2">
-          <span className="text-sm font-medium text-gray-600">By {author}</span>
+          <span className="text-sm font-medium text-gray-600">By {name}</span>
         </div>
 
         {/* Title */}
@@ -35,8 +28,6 @@ const BlogHolder = ({
           {createdAt && (
             <span>{format(parseISO(createdAt), "MMMM d, yyyy")}</span>
           )}
-          <span>{views} views</span>
-          <span>{likes} likes</span>
         </div>
       </div>
     </div>

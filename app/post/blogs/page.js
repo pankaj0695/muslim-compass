@@ -17,6 +17,7 @@ export default function NewBlogPost() {
   const [coverImage, setCoverImage] = useState("");
   const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({
+    name: "",
     title: "",
     subTitle: "",
     content: "",
@@ -71,6 +72,7 @@ export default function NewBlogPost() {
 
   const validateForm = () => {
     const newErrors = {};
+    if (!formData.name) newErrors.name = "Name is required";
     if (!formData.title) newErrors.title = "Title is required";
     if (!formData.subTitle) newErrors.subTitle = "Subtitle is required";
     if (!formData.content) newErrors.content = "Content is required";
@@ -118,6 +120,7 @@ export default function NewBlogPost() {
 
       // Step 4: Reset the form fields after successful submission
       setFormData({
+        name: "",
         title: "",
         subTitle: "",
         content: "",
@@ -168,6 +171,23 @@ export default function NewBlogPost() {
 
           <form onSubmit={handleSubmit} className="space-y-8">
             <div className="space-y-6">
+              {/* Name */}
+              <div>
+                <Label htmlFor="name">Name</Label>
+                <Input
+                  id="name"
+                  name="name"
+                  type="text"
+                  value={formData.name}
+                  onChange={handleChange}
+                  placeholder="Enter your name"
+                  className="mt-2 text-xl font-bold"
+                />
+                {errors.name && (
+                  <p className="text-sm text-red-500">{errors.name}</p>
+                )}
+              </div>
+
               {/* Cover Image Upload */}
               <div>
                 <Label htmlFor="cover-image">Cover Image</Label>
