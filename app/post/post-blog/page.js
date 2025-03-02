@@ -13,6 +13,7 @@ import { addBlog } from "@/app/actions/blogsActions";
 export default function NewBlogPost() {
   const [isLoading, setIsLoading] = useState(false);
   const [coverImage, setCoverImage] = useState("");
+  const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({
     title: "",
     subTitle: "",
@@ -52,8 +53,18 @@ export default function NewBlogPost() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const validateForm = () => {
+    const newErrors = {};
+    if (!formData.title) newErrors.title = "Title is required";
+    if (!formData.subTitle) newErrors.subTitle = "Subtitle is required";
+    if (!formData.content) newErrors.content = "Content is required";
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validateForm()) return;
     setIsLoading(true);
     try {
       let imageUrl = "";
@@ -193,6 +204,9 @@ export default function NewBlogPost() {
                   placeholder="Enter your story title"
                   className="mt-2 text-xl font-bold"
                 />
+                {errors.title && (
+                  <p className="text-sm text-red-500">{errors.title}</p>
+                )}
               </div>
 
               {/* Subtitle */}
@@ -207,6 +221,9 @@ export default function NewBlogPost() {
                   placeholder="Add a subtitle to your story"
                   className="mt-2 text-lg"
                 />
+                {errors.subTitle && (
+                  <p className="text-sm text-red-500">{errors.subTitle}</p>
+                )}
               </div>
 
               {/* Content */}
@@ -220,6 +237,9 @@ export default function NewBlogPost() {
                   placeholder="Tell your story..."
                   className="mt-2 min-h-[400px] text-lg leading-relaxed"
                 />
+                {errors.content && (
+                  <p className="text-sm text-red-500">{errors.content}</p>
+                )}
               </div>
             </div>
 

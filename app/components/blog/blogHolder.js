@@ -10,7 +10,7 @@ const BlogHolder = ({
   image,
 }) => {
   return (
-    <div className="bg-white rounded-lg overflow-hidden border border-gray-200 flex flex-col md:flex-row h-full">
+    <div className="bg-white rounded-lg overflow-hidden border border-gray-200 flex flex-col md:flex-row h-full w-[90vw] max-w-lg">
       {/* Blog Image on Left */}
       {image && (
         <div className="w-full md:w-1/3 h-40 md:h-auto overflow-hidden">

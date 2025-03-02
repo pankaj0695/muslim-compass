@@ -26,6 +26,7 @@ const ReactQuill = dynamic(() => import("react-quill-new"), {
 export default function Home() {
   const [step, setStep] = useState(1);
   const [coverImage, setCoverImage] = useState(null);
+  const [errors, setErrors] = useState({});
   const router = useRouter();
 
   const handleImageUpload = (e) => {
@@ -42,12 +43,14 @@ export default function Home() {
 
   const [formData, setFormData] = useState({
     title: "",
+    category: "",
     details: "",
     imageFile: {},
     startDate: "",
     endDate: "",
     location: "",
     capacity: "",
+    price: "Free",
     ageRestriction: "all",
     registrationLink: "",
     contactInfo: { email: "", phone: "" },
@@ -102,6 +105,29 @@ export default function Home() {
     }));
   };
 
+  const validateStep = () => {
+    const newErrors = {};
+    if (step === 1) {
+      if (!formData.title) newErrors.title = "Event title is required";
+      if (!formData.category) newErrors.category = "Category is required";
+      if (!formData.details) newErrors.details = "Event details are required";
+      if (!formData.startDate) newErrors.startDate = "Start date is required";
+      if (!formData.endDate) newErrors.endDate = "End date is required";
+      if (!validateDateRange(formData.startDate, formData.endDate)) {
+        newErrors.endDate = "End date must be after start date";
+      }
+    } else if (step === 2) {
+      if (!formData.location) newErrors.location = "Location is required";
+      if (!formData.price) newErrors.price = "Price is required";
+    } else if (step === 3) {
+      if (!formData.contactInfo.email) newErrors.email = "Email is required";
+      if (!formData.contactInfo.phone)
+        newErrors.phone = "Phone number is required";
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   async function getS3UploadUrl(imgExtension) {
     const res = await fetch("/api/s3url", {
       method: "POST",
@@ -154,12 +180,14 @@ export default function Home() {
       // Step 4: Reset the form fields after successful submission
       setFormData({
         title: "",
+        category: "",
         details: "",
         imageFile: {},
         startDate: "",
         endDate: "",
         location: "",
         capacity: "",
+        price: "Free",
         ageRestriction: "all",
         registrationLink: "",
         contactInfo: { email: "", phone: "" },
@@ -180,6 +208,12 @@ export default function Home() {
 
       // Show an error message to the user
       alert("Failed to create event: " + error.message);
+    }
+  };
+
+  const handleNext = () => {
+    if (validateStep()) {
+      setStep(step + 1);
     }
   };
 
@@ -227,6 +261,31 @@ export default function Home() {
                   placeholder="Enter event title"
                   required
                 />
+                {errors.title && (
+                  <p className="text-sm text-red-500">{errors.title}</p>
+                )}
+              </div>
+
+              <div className="space-y-4">
+                <label className="block text-[#2d1810] text-sm font-medium">
+                  Category
+                </label>
+                <select
+                  name="category"
+                  value={formData.category}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 rounded-lg border-2 border-[#e9d5c3] focus:border-[#8b5e34] focus:ring-[#8b5e34] transition-colors"
+                  required
+                >
+                  <option value="">Select a category</option>
+                  <option value="Dinner">Dinner</option>
+                  <option value="Socialization">Socialization</option>
+                  <option value="Prayer">Prayer</option>
+                  <option value="Breakfast">Breakfast</option>
+                </select>
+                {errors.category && (
+                  <p className="text-sm text-red-500">{errors.category}</p>
+                )}
               </div>
 
               <div>
@@ -288,6 +347,9 @@ export default function Home() {
                   placeholder="Describe your event"
                   style={{ minHeight: "200px" }} // Adjust height directly with inline style
                 />
+                {errors.details && (
+                  <p className="text-sm text-red-500">{errors.details}</p>
+                )}
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -307,6 +369,9 @@ export default function Home() {
                     <p className="text-sm text-[#8b5e34]">
                       {formatDisplayDate(formData.startDate)}
                     </p>
+                  )}
+                  {errors.startDate && (
+                    <p className="text-sm text-red-500">{errors.startDate}</p>
                   )}
                 </div>
                 <div className="space-y-4">
@@ -332,6 +397,9 @@ export default function Home() {
                       End date must be after start date
                     </p>
                   )}
+                  {errors.endDate && (
+                    <p className="text-sm text-red-500">{errors.endDate}</p>
+                  )}
                 </div>
               </div>
             </motion.div>
@@ -354,6 +422,9 @@ export default function Home() {
                     placeholder="Event location"
                     required
                   />
+                  {errors.location && (
+                    <p className="text-sm text-red-500">{errors.location}</p>
+                  )}
                 </div>
               </div>
 
@@ -389,6 +460,24 @@ export default function Home() {
                     <option value="children">Children friendly</option>
                   </select>
                 </div>
+              </div>
+
+              <div className="space-y-4">
+                <label className="block text-[#2d1810] text-sm font-medium">
+                  Price
+                </label>
+                <input
+                  type="text"
+                  name="price"
+                  value={formData.price}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 rounded-lg border-2 border-[#e9d5c3] focus:border-[#8b5e34] focus:ring-[#8b5e34] transition-colors"
+                  placeholder="Enter price or 'Free'"
+                  required
+                />
+                {errors.price && (
+                  <p className="text-sm text-red-500">{errors.price}</p>
+                )}
               </div>
 
               <div className="space-y-4">
@@ -431,6 +520,9 @@ export default function Home() {
                       placeholder="Contact email"
                       required
                     />
+                    {errors.email && (
+                      <p className="text-sm text-red-500">{errors.email}</p>
+                    )}
                   </div>
                 </div>
                 <div className="space-y-4">
@@ -454,6 +546,9 @@ export default function Home() {
                       placeholder="Contact phone"
                       required
                     />
+                    {errors.phone && (
+                      <p className="text-sm text-red-500">{errors.phone}</p>
+                    )}
                   </div>
                 </div>
               </div>
@@ -588,7 +683,7 @@ export default function Home() {
             </button>
             <button
               onClick={() =>
-                step < totalSteps ? setStep(step + 1) : handleSubmit()
+                step < totalSteps ? handleNext() : handleSubmit()
               }
               className="px-6 py-2 rounded-lg bg-[#8b5e34] text-white hover:bg-[#2d1810] transition-colors"
             >

@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import EventSection from "./components/eventSection";
@@ -9,12 +9,20 @@ export default function Home() {
   // Animation variants
   const bannerVariants = {
     hidden: { opacity: 0, x: -100 },
-    visible: { opacity: 1, x: 0, transition: { duration: 0.8, ease: "easeOut" } },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: { duration: 0.8, ease: "easeOut" },
+    },
   };
 
   const sectionVariants = {
     hidden: { opacity: 0, y: 50 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.8, ease: "easeOut" },
+    },
   };
 
   return (
@@ -25,27 +33,27 @@ export default function Home() {
         whileInView="visible"
         viewport={{ once: true }} // Ensures the animation only happens once
         variants={bannerVariants}
-        className="w-screen overflow-hidden py-10"
+        className="w-screen overflow-hidden py-5 md:py-10"
       >
         <Image
           src="/banner.png"
           alt="Hero image"
           width={900}
           height={400}
-          className="min-w-[90vw]"
+          className="max-w-[90vw] md:min-w-[90vw]"
           priority={true}
           loading="eager"
         />
       </motion.div>
 
       {/* Event and Blogs Section */}
-      <div className="flex w-full pt-10 border-b mb-20 border-black">
+      <div className="flex flex-col md:flex-row w-full pt-5 md:pt-10 border-b mb-20 border-black">
         <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }} // Trigger when 20% of the element is in view
           variants={sectionVariants}
-          className="pr-10 flex-[2] pb-10"
+          className="md:pr-10 flex-[2] pb-10"
         >
           <EventSection />
         </motion.div>
@@ -54,7 +62,7 @@ export default function Home() {
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
           variants={sectionVariants}
-          className="flex-[1] border-l border-black pl-10"
+          className="md:border-l border-black md:pl-10 flex-[1]"
         >
           <BlogsSection />
         </motion.div>

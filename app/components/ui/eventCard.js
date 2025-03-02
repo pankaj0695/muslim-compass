@@ -4,9 +4,9 @@ import Image from "next/image";
 import { format, parseISO } from "date-fns";
 import { CalendarDays, MapPin } from "lucide-react";
 
-const EventCard = ({ title, location, image, startDate }) => {
+const EventCard = ({ title, location, image, startDate, price }) => {
   return (
-    <div className="rounded-lg overflow-hidden border border-gray-200 bg-white">
+    <div className="rounded-lg overflow-hidden border border-gray-200 bg-white w-[90vw] max-w-lg">
       {/* Event Image */}
       {image && (
         <div className="min-h-[180px] max-h-[250px] overflow-hidden">
@@ -41,7 +41,7 @@ const EventCard = ({ title, location, image, startDate }) => {
 
         {/* Free Tag */}
         <div className="mt-3 text-xs font-semibold text-green-600 bg-green-100 py-1 px-3 rounded-full w-fit">
-          Free
+          {price == "Free" ? price : "$" + price}
         </div>
       </div>
     </div>

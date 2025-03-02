@@ -7,15 +7,41 @@ import FilterToast from "../components/ui/filterToast";
 
 const Events = () => {
   const [events, setEvents] = useState([]);
+  const [filteredEvents, setFilteredEvents] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const eventsPerPage = 12;
 
   useEffect(() => {
     const fetchEvents = async () => {
       const response = await fetch("/api/events");
       const fetchedEvents = await response.json();
       setEvents(fetchedEvents.events);
+      setFilteredEvents(fetchedEvents.events);
     };
     fetchEvents();
   }, []);
+
+  const handleFilter = (category) => {
+    setSelectedCategory(category);
+    if (category === "") {
+      setFilteredEvents(events);
+    } else {
+      setFilteredEvents(events.filter((event) => event.category === category));
+    }
+    setCurrentPage(1); // Reset to first page when filtering
+  };
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  const indexOfLastEvent = currentPage * eventsPerPage;
+  const indexOfFirstEvent = indexOfLastEvent - eventsPerPage;
+  const currentEvents = filteredEvents.slice(
+    indexOfFirstEvent,
+    indexOfLastEvent
+  );
 
   return (
     <div className="mx-[5%] my-[5%]">
@@ -23,31 +49,73 @@ const Events = () => {
 
       {/* Filters */}
       <div className="flex gap-2 mb-8">
-        <FilterToast text="Dinner" />
-        <FilterToast text="Socialization" />
-        <FilterToast text="Prayer" />
-        <FilterToast text="Breakfast" />
+        <FilterToast
+          text="All"
+          onClick={() => handleFilter("")}
+          className={selectedCategory === "" ? "bg-primary text-black" : ""}
+        />
+        <FilterToast
+          text="Dinner"
+          onClick={() => handleFilter("Dinner")}
+          className={
+            selectedCategory === "Dinner" ? "bg-primary text-black" : ""
+          }
+        />
+        <FilterToast
+          text="Socialization"
+          onClick={() => handleFilter("Socialization")}
+          className={
+            selectedCategory === "Socialization" ? "bg-primary text-black" : ""
+          }
+        />
+        <FilterToast
+          text="Prayer"
+          onClick={() => handleFilter("Prayer")}
+          className={
+            selectedCategory === "Prayer" ? "bg-primary text-black" : ""
+          }
+        />
+        <FilterToast
+          text="Breakfast"
+          onClick={() => handleFilter("Breakfast")}
+          className={
+            selectedCategory === "Breakfast" ? "bg-primary text-black" : ""
+          }
+        />
       </div>
 
       {/* Event Grid with Equal Heights */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-x-16 gap-y-12">
-        {events.length > 0 ? (
-          events.map((event, index) => (
+        {currentEvents.length > 0 ? (
+          currentEvents.map((event, index) => (
             <Link key={index} href={`/events/${event._id}`} className="flex">
               <EventCard {...event} />
             </Link>
           ))
         ) : (
-          <p>Loading...</p>
+          <p>No events found.</p>
         )}
       </div>
 
-      {/* Load More Button */}
-      {/* <div className="pt-10 text-center">
-        <Link href="/events" className="underline underline-offset-4">
-          Load More
-        </Link>
-      </div> */}
+      {/* Pagination */}
+      <div className="flex justify-center mt-8">
+        {Array.from(
+          { length: Math.ceil(filteredEvents.length / eventsPerPage) },
+          (_, index) => (
+            <button
+              key={index}
+              onClick={() => handlePageChange(index + 1)}
+              className={`px-4 py-2 mx-1 rounded-lg ${
+                currentPage === index + 1
+                  ? "bg-orange-200 text-black"
+                  : "bg-gray-300"
+              }`}
+            >
+              {index + 1}
+            </button>
+          )
+        )}
+      </div>
     </div>
   );
 };
