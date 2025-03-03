@@ -1,10 +1,15 @@
 "use client";
 
 import Image from "next/image";
-import { format, parseISO } from "date-fns";
-import { CalendarDays, MapPin } from "lucide-react";
+import { format } from "date-fns";
+import { CalendarDays, MapPin, Clock } from "lucide-react";
 
-const EventCard = ({ title, location, image, startDate, price }) => {
+const EventCard = ({ title, location, image, startDate, endDate, price }) => {
+  const formattedStartDate = format(new Date(startDate), "MMMM d, yyyy");
+  const formattedEndDate = format(new Date(endDate), "MMMM d, yyyy");
+  const formattedStartTime = format(new Date(startDate), "h:mm a");
+  const formattedEndTime = format(new Date(endDate), "h:mm a");
+
   return (
     <div className="rounded-lg overflow-hidden border border-gray-200 bg-white w-[90vw] max-w-lg">
       {/* Event Image */}
@@ -32,10 +37,32 @@ const EventCard = ({ title, location, image, startDate, price }) => {
         </div>
 
         {/* Event Date */}
-        {startDate && (
+        {startDate && endDate && (
           <div className="flex items-center gap-1 text-sm text-gray-600 mt-2">
             <CalendarDays className="w-4 h-4 text-gray-500" />
-            <span>{format(parseISO(startDate), "MMMM d, yyyy")}</span>
+            {startDate === endDate ? (
+              <span>{formattedStartDate}</span>
+            ) : (
+              <span>
+                {formattedStartDate} - {formattedEndDate}
+              </span>
+            )}
+          </div>
+        )}
+
+        {/* Event Time */}
+        {startDate && endDate && (
+          <div className="flex items-center gap-1 text-sm text-gray-600 mt-2">
+            <Clock className="w-4 h-4 text-gray-500" />
+            {startDate === endDate ? (
+              <span>
+                {formattedStartTime} - {formattedEndTime}
+              </span>
+            ) : (
+              <span>
+                {formattedStartTime} - {formattedEndTime}
+              </span>
+            )}
           </div>
         )}
 

@@ -18,6 +18,7 @@ import dynamic from "next/dynamic";
 import "react-quill-new/dist/quill.snow.css";
 import { Label } from "@radix-ui/react-label";
 import { Button } from "../ui/button";
+import { set } from "mongoose";
 const ReactQuill = dynamic(() => import("react-quill-new"), {
   ssr: false, // Disable server-side rendering
   loading: () => <p>Loading editor...</p>, // Optional: Show a loading placeholder
@@ -27,18 +28,19 @@ export default function Home() {
   const [step, setStep] = useState(1);
   const [coverImage, setCoverImage] = useState(null);
   const [errors, setErrors] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const handleImageUpload = (e) => {
     const file = e.target.files?.[0];
     if (file) {
+      setFormData((prev) => ({ ...prev, imageFile: file }));
       const reader = new FileReader();
       reader.onloadend = () => {
         setCoverImage(reader.result);
       };
       reader.readAsDataURL(file);
     }
-    setFormData((prev) => ({ ...prev, imageFile: file }));
   };
 
   const [formData, setFormData] = useState({
@@ -143,6 +145,7 @@ export default function Home() {
   }
 
   const handleSubmit = async () => {
+    setIsLoading(true);
     try {
       let imageUrl = "";
       // Step 1: Upload the image if it exists
@@ -209,6 +212,7 @@ export default function Home() {
       // Show an error message to the user
       alert("Failed to create event: " + error.message);
     }
+    setIsLoading(false);
   };
 
   const handleNext = () => {
@@ -682,12 +686,17 @@ export default function Home() {
               Previous
             </button>
             <button
+              disabled={isLoading}
               onClick={() =>
                 step < totalSteps ? handleNext() : handleSubmit()
               }
               className="px-6 py-2 rounded-lg bg-[#8b5e34] text-white hover:bg-[#2d1810] transition-colors"
             >
-              {step === totalSteps ? "Submit" : "Next"}
+              {isLoading
+                ? "Submitting..."
+                : step === totalSteps
+                ? "Submit"
+                : "Next"}
             </button>
           </motion.div>
         </motion.div>

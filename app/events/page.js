@@ -16,8 +16,12 @@ const Events = () => {
     const fetchEvents = async () => {
       const response = await fetch("/api/events");
       const fetchedEvents = await response.json();
-      setEvents(fetchedEvents.events);
-      setFilteredEvents(fetchedEvents.events);
+      const validEvents = fetchedEvents.events.filter(
+        (event) => new Date(event.endDate) > new Date()
+      );
+      validEvents.sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
+      setEvents(validEvents);
+      setFilteredEvents(validEvents);
     };
     fetchEvents();
   }, []);
