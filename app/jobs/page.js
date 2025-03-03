@@ -44,8 +44,10 @@ export default function Jobs() {
       );
     }
     if (filters.keyword) {
-      filtered = filtered.filter((job) =>
-        job.title.toLowerCase().includes(filters.keyword.toLowerCase())
+      filtered = filtered.filter(
+        (job) =>
+          job.title.toLowerCase().includes(filters.keyword.toLowerCase()) ||
+          job.description.toLowerCase().includes(filters.keyword.toLowerCase())
       );
     }
     if (filters.city) {
