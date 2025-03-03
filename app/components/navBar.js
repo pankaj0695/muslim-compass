@@ -63,16 +63,16 @@ export default function NavBar() {
   return (
     <div className="flex flex-col">
       {/* Top Section */}
-      <div className="flex justify-between px-[5%] w-full pt-4 md:py-6 items-center">
+      <div className="flex justify-between px-[5%] w-full pt-4 md:py-2 items-center">
         {/* Logo Section */}
         <section className="flex-grow">
           <Link href="/" className="flex flex-row gap-2 items-center">
             <img
               src="/muslim-compass-logo.png"
               alt="Muslim Compass Logo"
-              className="w-12 h-12 md:w-20 md:h-20 object-contain"
+              className="w-20 h-20 md:w-28 md:h-28 object-contain"
             />
-            <h2 className="hidden md:block md:text-3xl font-[Amiri]">
+            <h2 className="hidden md:block md:text-4xl font-[Amiri]">
               Muslim Compass
             </h2>
           </Link>
@@ -135,7 +135,7 @@ export default function NavBar() {
           <li
             className="relative"
             onMouseEnter={() => setIsDropdownOpen(true)}
-            onClick={() => setIsDropdownOpen(false)}
+            onClick={() => setIsDropdownOpen((prev) => !prev)}
           >
             <button className="hover:text-gray-600 transition-colors">
               Posts <span className="ml-1">▼</span>
