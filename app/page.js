@@ -1,9 +1,9 @@
 "use client";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import EventSection from "./components/eventSection";
-import BlogsSection from "./components/blogsSection";
-import JobsSection from "./components/jobsSection";
+import EventSection from "./components/event/eventSection";
+import BlogsSection from "./components/blog/blogsSection";
+import JobsSection from "./components/job/jobsSection";
 
 export default function Home() {
   // Animation variants
@@ -26,7 +26,7 @@ export default function Home() {
   };
 
   return (
-    <div className="w-full px-[5%] mb-[10%]">
+    <div className="w-full px-[5%]">
       {/* Hero Section */}
       <motion.div
         initial="hidden"
@@ -74,13 +74,10 @@ export default function Home() {
         whileInView="visible"
         viewport={{ once: true, amount: 0.2 }}
         variants={sectionVariants}
-        className="border-b pb-20 border-black"
+        className=" pb-20"
       >
         <JobsSection />
       </motion.div>
-
-      {/* Spacer */}
-      <div className="h-[50vh]"></div>
     </div>
   );
 }

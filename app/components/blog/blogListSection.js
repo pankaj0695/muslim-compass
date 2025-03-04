@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import BlogHolder from "./blog/blogHolder";
+import BlogHolder from "./blogHolder";
 import Link from "next/link";
 
 const BlogPage = ({ blogs }) => {

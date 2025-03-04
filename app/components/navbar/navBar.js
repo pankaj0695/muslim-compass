@@ -2,8 +2,8 @@
 import { MenuIcon, MapPinIcon, SearchIcon, XIcon } from "lucide-react";
 import Link from "next/link"; // Assuming you're using Next.js for routing
 import { useState } from "react";
-import ProfileButton from "./profileButton";
-import { useUser } from "../context/userContext";
+import ProfileButton from "../ui/profileButton";
+import { useUser } from "../../context/userContext";
 
 export default function NavBar() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -120,7 +120,7 @@ export default function NavBar() {
       </div>
 
       {/* Bottom Navigation Section */}
-      <div className="bg-primary py-2 px-[5%] w-full flex justify-between shadow-sm">
+      <div className="bg-[#ffeddf] py-2 px-[5%] w-full flex justify-between shadow-sm">
         {/* Left Navigation Items */}
         <ul className="flex gap-4">
           {navItemsLeft.map((item, index) => (

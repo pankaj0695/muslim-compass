@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import BlogPage from "../components/blogListSection";
+import BlogPage from "../components/blog/blogListSection";
 
 export default function Blog() {
   const [blogs, setBlogs] = useState([]);

@@ -1,4 +1,4 @@
-import { useUser } from "../context/userContext";
+import { useUser } from "@/app/context/userContext";
 
 export default function ProfileButton() {
   const { user, login, logout } = useUser();

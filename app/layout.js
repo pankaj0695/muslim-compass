@@ -1,7 +1,8 @@
 import "./globals.css";
-import NavBar from "./components/navBar";
+import NavBar from "./components/navbar/navBar";
 import { EventProvider } from "./context/eventContext";
 import { UserProvider } from "./context/userContext";
+import Footer from "./components/footer/footer";
 
 export const metadata = {
   title: "Muslim Compass",
@@ -17,6 +18,8 @@ export default function RootLayout({ children }) {
           <EventProvider>
             <NavBar />
             {children}
+
+            <Footer />
           </EventProvider>
         </UserProvider>
       </body>

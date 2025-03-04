@@ -1,10 +1,23 @@
 "use client";
-import { JobCard } from "./ui/jobsCard";
-import { useRef } from "react";
+import { JobCard } from "../ui/jobsCard";
+import { useRef, useEffect, useState } from "react";
 import Link from "next/link";
 
 export default function JobsSection() {
+  const [jobs, setJobs] = useState(null);
   const containerRef = useRef(null);
+  useEffect(() => {
+    const fetchJobs = async () => {
+      const response = await fetch("/api/jobs");
+      const fetchedJobs = await response.json();
+      const validJobs = fetchedJobs.jobs.filter(
+        (job) => job.tag !== "Want a Job"
+      );
+      validJobs.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+      setJobs(validJobs.slice(0, 6));
+    };
+    fetchJobs();
+  }, []);
 
   const scrollLeft = () => {
     if (containerRef.current) {
@@ -27,24 +40,24 @@ export default function JobsSection() {
         ref={containerRef}
         className="flex overflow-x-auto scroll-smooth snap-x snap-mandatory space-x-4 p-4"
       >
-        <JobCard className="w-full sm:w-auto" />
-        <JobCard className="w-full sm:w-auto" />
-        <JobCard className="w-full sm:w-auto" />
-        <JobCard className="w-full sm:w-auto" />
-        <JobCard className="w-full sm:w-auto" />
-        <JobCard className="w-full sm:w-auto" />
+        {jobs &&
+          jobs.map((job) => (
+            <Link key={job._id} href={`/jobs/${job._id}`}>
+              <JobCard {...job}></JobCard>
+            </Link>
+          ))}
       </div>
 
       {/* Scroll Buttons */}
       <button
         onClick={scrollLeft}
-        className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-75 p-2 rounded-full shadow-lg hover:bg-opacity-100 transition-opacity"
+        className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-75 p-2 rounded-full shadow-lg hover:bg-opacity-100 transition-opacity hidden md:block"
       >
         &larr;
       </button>
       <button
         onClick={scrollRight}
-        className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-75 p-2 rounded-full shadow-lg hover:bg-opacity-100 transition-opacity"
+        className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-75 p-2 rounded-full shadow-lg hover:bg-opacity-100 transition-opacity hidden md:block"
       >
         &rarr;
       </button>

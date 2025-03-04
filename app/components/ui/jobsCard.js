@@ -1,55 +1,60 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Calendar, Clock } from "lucide-react";
+import { Calendar, Mail } from "lucide-react";
 
 export function JobCard({
-  companyLogo = "https://images.unsplash.com/photo-1560179707-f14e90ef3623?q=80&w=100&h=100&auto=format&fit=crop",
-  companyTitle,
-  serviceTitle,
+  image,
+  company,
+  title,
   description,
-  timeRange,
-  paymentStatus,
-  date,
+  email,
+  createdAt,
 }) {
+  const formatDate = (dateString) => {
+    const options = { day: "2-digit", month: "short", year: "2-digit" };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className="w-full max-w-lg rounded-xl border-black border p-6 shadow-sm md:min-w-[360px]"
+      className="w-full max-w-lg rounded-xl border border-gray-300 p-6 shadow-sm min-w-[85vw] md:min-w-[360px] bg-white h-80"
     >
-      <div className="flex items-center gap-3">
-        <img
-          src={companyLogo}
-          alt={`${companyTitle} logo`}
-          className="h-12 w-12 rounded-full object-cover"
-        />
-        <h2 className="text-[24px] font-medium text-black/80">Company Title</h2>
+      <div className="flex items-center gap-3 mb-4">
+        {image && (
+          <img
+            src={image}
+            alt={`${company} logo`}
+            className="md:block h-8 md:h-12 rounded-full object-cover"
+          />
+        )}
+        <h2 className="text-base md:text-[24px] font-medium text-black/80">
+          {company}
+        </h2>
       </div>
 
-      <div className="mt-6 space-y-4">
-        <h3 className="text-[20px] font-medium text-gray-900">
-          Service Needed
+      <div className="space-y-5">
+        <h3 className="text-base md:text-[24px] font-medium text-gray-900">
+          {title}
         </h3>
-        <p className="text-sm text-gray-600">
-          Small description of the service goes here used by persont to
-          understand brief for minute understand of things
+        <p className="text-xs md:text-sm text-gray-600">
+          {description.length > 150
+            ? `${description.substring(0, 150)}...`
+            : description}
         </p>
       </div>
 
-      <div className="mt-8 flex items-center gap-6 text-gray-600">
-        <div className="flex items-center gap-2">
-          <Clock className="h-6 w-6" />
-          <span className="text-base md:text-sm">9AM - 5PM</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <span className="text-base md:text-sm font-medium">Paid</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <Calendar className="h-6 w-6" />
-          <span className="text-base md:text-sm">9 Feb</span>
-        </div>
+      <div className="mt-6 text-gray-600 flex flex-col md:flex-row gap-2 md:gap-6">
+        <p className="text-xs md:text-md flex items-center gap-2">
+          <Mail className="h-5 w-5" /> {email}
+        </p>
+        <p className="text-xs md:text-md flex items-center gap-2">
+          <Calendar className="h-5 w-5" />
+          {formatDate(createdAt)}
+        </p>
       </div>
     </motion.div>
   );

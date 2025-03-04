@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import EventCard from "./ui/eventCard";
+import EventCard from "../ui/eventCard";
 import Link from "next/link";
 
 const EventSection = () => {

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import BlogHolder from "./blog/blogHolder";
+import BlogHolder from "./blogHolder";
 
 export default function BlogsSection() {
   const [blogs, setBlogs] = useState([]);

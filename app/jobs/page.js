@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { getJobs } from "../actions/jobsAction";
 import { motion } from "framer-motion";
 import { MapPin, Calendar } from "lucide-react";
+import Link from "next/link";
 
 export default function Jobs() {
   const [jobs, setJobs] = useState([]);
@@ -157,7 +158,8 @@ export default function Jobs() {
 
         <div className="space-y-10">
           {currentJobs.map((job) => (
-            <div
+            <Link
+              href={`/jobs/${job._id}`}
               key={job._id}
               className="bg-white rounded-lg p-6 flex flex-col space-y-4 border border-gray-200 shadow-md"
             >
@@ -190,7 +192,7 @@ export default function Jobs() {
                 <Calendar className="mr-2" />
                 {new Date(job.createdAt).toLocaleDateString()}
               </p>
-            </div>
+            </Link>
           ))}
         </div>
 

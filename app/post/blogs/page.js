@@ -288,7 +288,7 @@ export default function NewBlogPost() {
                 type="submit"
                 size="lg"
                 disabled={isLoading}
-                className="min-w-[150px] bg-amber-200"
+                className="px-6 py-2 rounded-lg bg-[#8b5e34] text-white hover:bg-[#2d1810] transition-colors"
               >
                 {isLoading ? (
                   <>

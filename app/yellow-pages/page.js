@@ -1,6 +1,6 @@
 export default function YellowPages() {
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center p-4 overflow-hidden islamic-pattern">
+    <div className="w-full h-full flex flex-col items-center justify-center p-4 overflow-hidden">
       {/* Main Card */}
       <div className="relative bg-orange-50 backdrop-blur-sm rounded-3xl shadow-2xl p-6 md:p-12 max-w-5xl w-full border flex flex-col items-center justify-center min-h-[70vh]">
         <div className="flex flex-col items-center text-center max-w-3xl mx-auto">
